@@ -42,9 +42,12 @@ object App {
   def main(args : Array[String]) {
     val conf = new SparkConf().setAppName("Word2Vec demo").setMaster("local[4]")
     val sc = new SparkContext(conf)
-    val input = sc.textFile("data/text8").map(line => line.split(" ").toSeq)
+    val input = sc.textFile("data/enwiki-latest-pages-articles1.xml-p000000010p000010000").map(line => line.split(" ").toSeq)
     App.train_model(input)
-    App.findSynonyms("china", 40)
+    val synonyms = App.findSynonyms("china", 40)
+    for((synonym, cosineSimilarity) <- synonyms) {
+      println(s"$synonym $cosineSimilarity")
+    }
   }
 
 }
