@@ -24,6 +24,10 @@ object App {
     oos.close
   }
   
+  def resetModel() {
+    model = null  
+  }
+  
   def loadTrainedModel(fileName: String) {
     try {
       val ois = new ObjectInputStream(new FileInputStream(fileName))
@@ -42,12 +46,12 @@ object App {
   def main(args : Array[String]) {
     val conf = new SparkConf().setAppName("Word2Vec demo").setMaster("local[4]")
     val sc = new SparkContext(conf)
-    val input = sc.textFile("data/enwiki-latest-pages-articles1.xml-p000000010p000010000").map(line => line.split(" ").toSeq)
+    val input = sc.textFile("data/wiki1.txt").map(line => line.split(" ").toSeq)
     App.train_model(input)
     val synonyms = App.findSynonyms("china", 40)
     for((synonym, cosineSimilarity) <- synonyms) {
       println(s"$synonym $cosineSimilarity")
-    }
+    }    
   }
 
 }
