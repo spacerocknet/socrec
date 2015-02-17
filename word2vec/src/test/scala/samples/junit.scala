@@ -48,7 +48,7 @@ class AppTest {
       conf.registerKryoClasses(Array(classOf[Word2VecModel]))*/
       
       val sc = new SparkContext(conf)
-      val input = sc.textFile("data/wiki1_small.txt").map(line => line.split(" ").toSeq)
+      val input = sc.textFile("data/wiki1_tiny.txt").map(line => line.split(" ").toSeq)
       App.train_model(input)
       testModel()
       

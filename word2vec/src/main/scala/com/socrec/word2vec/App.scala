@@ -63,6 +63,7 @@ object App {
       
     val conf = new SparkConf().setAppName("Word2Vec demo").setMaster("local[4]")
     val sc = new SparkContext(conf)
+    println(Word2VecConf.getTrainingDataFileName())
     val input = sc.textFile(Word2VecConf.getTrainingDataFileName()).map(line => line.split(" ").toSeq)
     App.train_model(input)
     val synonyms = App.findSynonyms("china", 40)

@@ -16,8 +16,8 @@ object Word2VecConf {
   
   def getTrainingDataFileName(): String = {
     if (configuration.contains(key_trainingDataPath)) 
-      return configuration.get(key_trainingDataPath).toString()
+      return configuration.get(key_trainingDataPath).getOrElse("data/wiki1_tiny.txt")
     else 
-      return "data/wiki1.txt"
+      return "data/wiki1_tiny.txt"
   }
 }
