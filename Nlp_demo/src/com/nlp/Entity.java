@@ -21,22 +21,25 @@ class Entity {
         // Create an AlchemyAPI object.
         AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile("testdir/api_key.txt");
 
-        // Extract a ranked list of named entities for a web URL.
+        /*// Extract a ranked list of named entities for a web URL.
         Document doc = alchemyObj.URLGetRankedNamedEntities("http://www.techcrunch.com/");
-        System.out.println(getStringFromDocument(doc));
+        System.out.println(getStringFromDocument(doc));*/
 
         // Extract a ranked list of named entities from a text string.
+        Document doc;
         doc = alchemyObj.TextGetRankedNamedEntities(
             "Hello there, my name is Bob Jones.  I live in the United States of America.  " +
-            "Where do you live, Fred?");
+            "Where do you live, Fred?"+
+            "Beckham and Ronaldo are players who are extremely well"+
+            "Harry Potter is in wizzard place");
         System.out.println(getStringFromDocument(doc));
 
-        // Load a HTML document to analyze.
+       /* // Load a HTML document to analyze.
         String htmlDoc = getFileContents("testdir/data/example.html");
 
         // Extract a ranked list of named entities from a HTML document.
         doc = alchemyObj.HTMLGetRankedNamedEntities(htmlDoc, "http://www.test.com/");
-        System.out.println(getStringFromDocument(doc));
+        System.out.println(getStringFromDocument(doc));*/
     }
 
     // utility function
