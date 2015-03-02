@@ -31,7 +31,7 @@ public class FbDataCollector {
 	private void setMainUser(FbUser mainUser) {
 		this.mainUser = mainUser;
 	}
-public void retrieveUserProfile(String object){
+public HashMap<String, String> retrieveUserProfile(String object){
 		
 		
 		DefaultFacebookClient fbClient = new DefaultFacebookClient(getMainUser().getAccess_token());
@@ -83,15 +83,33 @@ public void retrieveUserProfile(String object){
          }
          
          // step 3a: output result
+         HashMap<String, String> result = new HashMap<String, String>();
          for (User friend : friends) {
-                 System.out.println("Favorite "+object +" of "+ friend.getName()+":");
+                 //System.out.println("Favorite "+object +" of "+ friend.getName()+":");
                  PageConnections connections = favorite.get(friend.getId());
-                 for (PageConnection connection : connections.getData()) {
-                         System.out.print("  " + connection.getName());
-                         System.out.println();
+                 if(connections.getData().size()>=1)
+                 {
+                	 String value="{";
+                	 int i = connections.getData().size();
+                     for (PageConnection connection : connections.getData()) {
+                            // System.out.print("  " + connection.getName() );
+                             value= value +"'"+ connection.getName()+"'";
+                             i--;
+                             if(i>0){
+                            	 value=value+",";
+                             }
+                             
+                     }
+                     value=value+"}";
+                     //System.out.println(value);
+                     result.put(friend.getName(), value);
                  }
+               
                  
          }
+        
+         
+         return result;
 		
          
 	}
@@ -110,7 +128,7 @@ public String getAsIdParamList(List<User> users) {
 
 public static void main(String[] args) {
 	String userId = "";
-	String access_token = "CAACEdEose0cBAC9gtb11ngpZBERRa00zuNbVM8PnAhkVdtxOi1QnHSTGPzPKFHLuLFyjxuND81qVfQmoCbUXVMQHbW3ttu54zBjoG7gpX6OjyPj5mr6yoNuMXgKpS0WxyL98oWsyzRrSzG55pE6fUKvSrXAOGeAVPX1ar7nm3IrvMZBmI34b35q1yPvH2XUSGHRUfYDf6TvKVB2Rvs";
+	String access_token = "CAACEdEose0cBAPsZBNzxZA00AXaGYljtP5j93TNctBnTU6XQt5g2Ag89Lm0jknVlJiVZB3ohIBvCtMcw8Fku8ptSSr1zkCEmdCq1W0Lx2bUUI0LV0dS8Kdm8NGNu0VVEucIez0xyTP9Ww14gTgZC1APjUENZByYdBVSDf8TELIj7eK7Ph0OsairOJwBZBhFc7VEWWUKJKXZCiITdZCZBFIrqvZAPqv68tSteqS6yFNXXEZCDQZDZD";
 	FbUser user = new FbUser(userId, access_token);
 	FbDataCollector dataCollector = new FbDataCollector(user);
 	dataCollector.retrieveUserProfile("movies");
