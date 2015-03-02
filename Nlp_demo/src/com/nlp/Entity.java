@@ -1,4 +1,4 @@
-package com.nlp;
+package com.execution;
 
 import com.alchemyapi.api.AlchemyAPI;
 
@@ -21,24 +21,22 @@ class Entity {
         // Create an AlchemyAPI object.
         AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile("testdir/api_key.txt");
 
-       /* // Extract a ranked list of named entities for a web URL.
-        Document doc = alchemyObj.URLGetRankedNamedEntities("http://www.abc.com/");
+        // Extract a ranked list of named entities for a web URL.
+        Document doc = alchemyObj.URLGetRankedNamedEntities("http://www.techcrunch.com/");
         System.out.println(getStringFromDocument(doc));
-*/
+
         // Extract a ranked list of named entities from a text string.
-       
-        Document doc = alchemyObj.TextGetRankedNamedEntities(
-            "Titanic, harry potter and the chamber of secrets movie, David Beckham, First love, Real Madrid");
-        //System.out.println(getStringFromDocument(doc));
-       System.out.println( getStringFromDocument(alchemyObj.TextGetRankedNamedEntities("Titanic,the chamber of secrets, David Beckham, First love, Real Madrid")));
-        //System.out.println(getStringFromDocument(doc));
-       
-      /*  // Load a HTML document to analyze.
+        doc = alchemyObj.TextGetRankedNamedEntities(
+            "Hello there, my name is Bob Jones.  I live in the United States of America.  " +
+            "Where do you live, Fred?");
+        System.out.println(getStringFromDocument(doc));
+
+        // Load a HTML document to analyze.
         String htmlDoc = getFileContents("testdir/data/example.html");
 
         // Extract a ranked list of named entities from a HTML document.
         doc = alchemyObj.HTMLGetRankedNamedEntities(htmlDoc, "http://www.test.com/");
-        System.out.println(getStringFromDocument(doc));*/
+        System.out.println(getStringFromDocument(doc));
     }
 
     // utility function
