@@ -32,7 +32,7 @@ public class Testing {
 		String access_token = "CAACEdEose0cBALGmPrAWkBQmVhW2htmN5ZCLGGsKpmZBjocXES5ENd34zZAbZBgHnGWoszEGYofZCbg3ATuIYLjD0kO5DJlgAXsQYVSpqiF0mFS4M7Pvwu4FjzqUK0YNF8ERZBmOg9DAuYjzbSPZBdoA4ONtwDZAk7h9RZAzGRzFNetftTvzsFZA1dipIF58xlfZBgvekozL1Gvlf8ZAyAXniL1K40InQonvWUIZD";
 		FbUser user = new FbUser(userId, access_token);
 		FbDataCollector dataCollector = new FbDataCollector(user);
-		dataCollector.retrieveUserProfile("likes");
+		dataCollector.retrieveUserProfile("movies");
 		
 
 	}

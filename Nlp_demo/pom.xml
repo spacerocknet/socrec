@@ -27,5 +27,10 @@
   		<artifactId>cassandra-driver-core</artifactId>
   		<version>2.1.4</version>
   	</dependency>
+  	<dependency>
+  		<groupId>org.facebook4j</groupId>
+  		<artifactId>facebook4j-core</artifactId>
+  		<version>2.2.2</version>
+  	</dependency>
   </dependencies>
 </project>

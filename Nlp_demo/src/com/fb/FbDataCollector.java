@@ -110,7 +110,7 @@ public String getAsIdParamList(List<User> users) {
 
 public static void main(String[] args) {
 	String userId = "";
-	String access_token = "CAACEdEose0cBALGmPrAWkBQmVhW2htmN5ZCLGGsKpmZBjocXES5ENd34zZAbZBgHnGWoszEGYofZCbg3ATuIYLjD0kO5DJlgAXsQYVSpqiF0mFS4M7Pvwu4FjzqUK0YNF8ERZBmOg9DAuYjzbSPZBdoA4ONtwDZAk7h9RZAzGRzFNetftTvzsFZA1dipIF58xlfZBgvekozL1Gvlf8ZAyAXniL1K40InQonvWUIZD";
+	String access_token = "CAACEdEose0cBAC9gtb11ngpZBERRa00zuNbVM8PnAhkVdtxOi1QnHSTGPzPKFHLuLFyjxuND81qVfQmoCbUXVMQHbW3ttu54zBjoG7gpX6OjyPj5mr6yoNuMXgKpS0WxyL98oWsyzRrSzG55pE6fUKvSrXAOGeAVPX1ar7nm3IrvMZBmI34b35q1yPvH2XUSGHRUfYDf6TvKVB2Rvs";
 	FbUser user = new FbUser(userId, access_token);
 	FbDataCollector dataCollector = new FbDataCollector(user);
 	dataCollector.retrieveUserProfile("movies");
