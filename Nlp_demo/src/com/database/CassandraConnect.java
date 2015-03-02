@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.xml.soap.Text;
+
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Host;
@@ -61,39 +63,57 @@ public class CassandraConnect {
 			            "address text" + 
 			            ");");
 			getSession().execute(
-			      "CREATE TABLE IF NOT EXISTS facebook.user_favoriteMovies (" +
+			      "CREATE TABLE IF NOT EXISTS facebook.Movies (" +
 			            "id uuid," +
 			            "username text," +
-			            "MovieTitle text," +
+			            "movietitle set<text>," +
 			            "PRIMARY KEY (id, username)" +
 			            ");");
+			getSession().execute(
+				      "CREATE TABLE IF NOT EXISTS facebook.like (" +
+				            "id uuid ," + 
+				            "username text," +
+				            "createat timestamp," +
+				           "like set<text>,"+
+				            "PRIMARY KEY(id, username, createat)"+
+				            ");");
 			
 	}
 	public ResultSet  querySchema() {
-		ResultSet results = getSession().execute("SELECT * FROM facebook.user_favoriteMovies " +
-		        "WHERE id = 756716f7-2e54-4715-9f00-91dcbea6cf50;");
+		ResultSet results = getSession().execute("SELECT * FROM facebook.movies " +
+		        ";");
 		
 		return results;
 		
 	}
-	public void insertData() {
+	public void insertMovieData(String id, String username, String movielist) {
 		
 		getSession().execute(
-			      "INSERT INTO facebook.user_favoriteMovies (id, username, movietitle) " +
-			      "VALUES (" +
-			          "756716f7-2e54-4715-9f00-91dcbea6cf50," +
-			          "'La Petite Tonkinoise'," +
-			          "'Bye Bye Blackbird')" +
+				
+			      "INSERT INTO facebook.Movies (id, username, movietitle) " +
+			      "VALUES (" + 
+			    	  id + "," +
+			          "'"+ username+ "'," +
+			          movielist+")" +
 			          ";");
 	}
-	
+	public void insertLikeData(String id, String username, String likelist) {
+		
+		getSession().execute(
+				
+			      "INSERT INTO facebook.Like (id, username, like) " +
+			      "VALUES (" + 
+			    	  id + "," +
+			          "'"+ username+ "'," +
+			          likelist+")" +
+			          ";");
+	}
 	public void preInsertData(String id, String username, String movie) {
 		PreparedStatement preInsertStatement = getSession().prepare(
-				"INSERT INTO facebook.user_favoriteMovies " +
+				"INSERT INTO facebook.Movies " +
 				"(id,username,movietitle) " +
 			    "VALUES (?, ?, ?);");
 		BoundStatement boundState = new BoundStatement(preInsertStatement);
-		Set<String> tags = new HashSet<String>();
 		getSession().execute(boundState.bind(
 				UUID.fromString(id),
 			      username,
@@ -105,14 +125,17 @@ public class CassandraConnect {
 		   client.connect("127.0.0.1");
 		   client.createSchema();
 		   
-		   client.preInsertData(UUID.randomUUID().toString(), "fafa", "fff");
-		   //client.insertData();
+		   //client.preInsertData(UUID.randomUUID().toString(), "fafa", "fff");
+		 //  client.insertData("756716f7-2e54-4715-9f00-91dcbea6cf50","ta ta","{'aa','bb'}");
 		   ResultSet results= client.querySchema();
 		   System.out.println(String.format("\t%-20s\t%-20s\n%s", "username", "movietitle",
 			       "-----------------------+--------------------"));
+		   
 			for (Row row : results) {
+				
 			    System.out.println(String.format("\t%-20s\t%-20s", row.getString("username"),
-			    row.getString("movietitle")));
+			    		row.getSet("movietitle", String.class)));
+			   
 			}
 			System.out.println();
 		   client.close();
