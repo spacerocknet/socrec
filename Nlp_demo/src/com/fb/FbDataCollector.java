@@ -93,7 +93,7 @@ public HashMap<String, String> retrieveUserProfile(String object){
                 	 int i = connections.getData().size();
                      for (PageConnection connection : connections.getData()) {
                             // System.out.print("  " + connection.getName() );
-                             value= value +"'"+ connection.getName()+"'";
+                             value= value +"'"+ connection.getName().replace("'", "")+"'";
                              i--;
                              if(i>0){
                             	 value=value+",";
@@ -103,6 +103,8 @@ public HashMap<String, String> retrieveUserProfile(String object){
                      value=value+"}";
                      //System.out.println(value);
                      result.put(friend.getName(), value);
+                 }else{
+                	 result.put(friend.getName(), "{}");
                  }
                
                  
