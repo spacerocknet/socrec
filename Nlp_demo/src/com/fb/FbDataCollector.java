@@ -1,7 +1,9 @@
 package com.fb;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -92,8 +94,11 @@ public HashMap<String, String> retrieveUserProfile(String object){
                 	 String value="{";
                 	 int i = connections.getData().size();
                      for (PageConnection connection : connections.getData()) {
-                            // System.out.print("  " + connection.getName() );
-                             value= value +"'"+ connection.getName().replace("'", "")+"'";
+                             value= value +escapeString(connection.getName());
+                             String date = new SimpleDateFormat("yyyy-MM-dd hh:mm").
+                            		           format(connection.getCreatedTime());
+   
+                             
                              i--;
                              if(i>0){
                             	 value=value+",";
@@ -130,12 +135,47 @@ public String getAsIdParamList(List<User> users) {
 
 public static void main(String[] args) {
 	String userId = "";
-	String access_token = "CAACEdEose0cBAPsZBNzxZA00AXaGYljtP5j93TNctBnTU6XQt5g2Ag89Lm0jknVlJiVZB3ohIBvCtMcw8Fku8ptSSr1zkCEmdCq1W0Lx2bUUI0LV0dS8Kdm8NGNu0VVEucIez0xyTP9Ww14gTgZC1APjUENZByYdBVSDf8TELIj7eK7Ph0OsairOJwBZBhFc7VEWWUKJKXZCiITdZCZBFIrqvZAPqv68tSteqS6yFNXXEZCDQZDZD";
+	String access_token = "CAACEdEose0cBAPidHkaZATu4UtfA0GDRBiyZBNxZBaEb14c9Uv5qVNwhCZB8WSOFPTA1ow1VxmZADmuucserfiVDZAiSbcZASMXQ1PBsT4cKIgb2IwmqvVCekwPxVWX5amxeU5r216ljAQVBBGIULZC7wgrNboea9nI2i4zwcvnpIURADjVRDAfzmVqVaOZCsdubZCnbMQXhAtBMMrtnG5OF406UQZCvfWr0WS3iN78PibkEgZDZD";
 	FbUser user = new FbUser(userId, access_token);
 	FbDataCollector dataCollector = new FbDataCollector(user);
 	dataCollector.retrieveUserProfile("movies");
 }
 	
 	
+static private String escapeString(String string) {
+	return string == null ? "" : "'" + string.replaceAll("'", "''") + "'";
+}
 
+static private void appendColumn(List<String> keys, List<String> values, String key, Object value) {
+	// TODO Auto-generated method stub
+	if(key == null || value == null) {
+		// Do nothing.
+	} else {
+		keys.add(key);
+		String escapedValue = value instanceof String ? escapeString((String) value) : value.toString();
+		values.add(escapedValue);
+	}
+}
+
+static private String generateInsertQuery(List<String> keys, List<String> values) {
+	StringBuffer output = new StringBuffer("INSERT INTO Pub (");
+	
+	boolean firstKey = true;
+	for(String key : keys) {
+		if(firstKey) firstKey = false;
+		else output.append(',');
+		output.append(key);
+	}
+
+	output.append(") VALUES (");
+
+	boolean firstValue = true;
+	for(String value : values) {
+		if(firstValue) firstValue = false;
+		else output.append(',');
+		output.append(value);
+	}
+	
+	return output.append(")").toString();
+}
 }

@@ -1,10 +1,16 @@
 package com.nlp;
 
 import com.alchemyapi.api.AlchemyAPI;
+import com.alchemyapi.api.AlchemyAPI_KeywordParams;
+import com.alchemyapi.api.AlchemyAPI_NamedEntityParams;
 
 import org.xml.sax.SAXException;
 import org.w3c.dom.Document;
+
 import java.io.*;
+import java.net.URL;
+import java.util.Properties;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.transform.Transformer;
@@ -14,34 +20,41 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 class Entity {
+	private AlchemyAPI alchemyClient;
+	public Entity()
+	{
+		setAlchemyClient();
+	}
+	public void showentity(String contentText) throws IOException, SAXException,
+    ParserConfigurationException, XPathExpressionException
+	{
+
+        System.out.println(" AlCHEMY ENTITIES:");
+        
+        AlchemyAPI_NamedEntityParams entityParams = new AlchemyAPI_NamedEntityParams();
+        entityParams.setDisambiguate(true);
+		entityParams.setSentiment(true);
+		Document alchemyRankedNamedEntities = this.alchemyClient.TextGetRankedNamedEntities(contentText, entityParams);
+	    //System.out.println(getStringFromDocument(alchemyRankedNamedEntities));
+	    
+	    AlchemyAPI_KeywordParams keywordParams = new AlchemyAPI_KeywordParams();
+		keywordParams.setSentiment(true);
+		Document alchemyRankedKeywords = this.alchemyClient.TextGetRankedKeywords(contentText);
+	    System.out.println(getStringFromDocument(alchemyRankedKeywords));
+	    
+	}
     public static void main(String[] args)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        // Create an AlchemyAPI object.
-        AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile("testdir/api_key.txt");
+      Entity entity = new Entity();
+      entity.showentity("David beckham, Ronaldo speaking at the UN Human Rights Council, Mr Kerry said he had warned Russia that it faced further sanctions if the conditions of the ceasefire were not met in full."
 
-        /*// Extract a ranked list of named entities for a web URL.
-        Document doc = alchemyObj.URLGetRankedNamedEntities("http://www.techcrunch.com/");
-        System.out.println(getStringFromDocument(doc));*/
-
-        // Extract a ranked list of named entities from a text string.
-        Document doc;
-        doc = alchemyObj.TextGetRankedNamedEntities(
-            "Hello there, my name is Bob Jones.  I live in the United States of America.  " +
-            "Where do you live, Fred?"+
-            "Beckham and Ronaldo are players who are extremely well"+
-            "Harry Potter is in wizzard place");
-        System.out.println(getStringFromDocument(doc));
-
-       /* // Load a HTML document to analyze.
-        String htmlDoc = getFileContents("testdir/data/example.html");
-
-        // Extract a ranked list of named entities from a HTML document.
-        doc = alchemyObj.HTMLGetRankedNamedEntities(htmlDoc, "http://www.test.com/");
-        System.out.println(getStringFromDocument(doc));*/
++"But he said he was optimistic the truce could be completed in "+"hours, certainly not more than days ");
+    
     }
 
+    
     // utility function
     private static String getFileContents(String filename)
         throws IOException, FileNotFoundException
@@ -82,4 +95,21 @@ class Entity {
             return null;
         }
     }
+
+	AlchemyAPI getAlchemyClient() {
+		return alchemyClient;
+	}
+
+	void setAlchemyClient() {
+		URL url = ClassLoader.getSystemResource("properties");
+		Properties p = new Properties();
+		try {
+			InputStream is = url.openStream();
+			p.load(is);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		String alchemyAPIKey = p.getProperty("alchemy.key");
+		this.alchemyClient = AlchemyAPI.GetInstanceFromString(alchemyAPIKey);
+	}
 }

@@ -12,7 +12,7 @@ public class AlchemyAPI_Params {
 	private String url;
 	private String html;
 	private String text;
-	private String outputMode = OUTPUT_XML;
+	private String outputMode = OUTPUT_RDF;
 	private String customParameters;
 	
 	public String getUrl() {
