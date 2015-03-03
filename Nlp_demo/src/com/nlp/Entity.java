@@ -28,6 +28,9 @@ import java.util.Properties;
 
 
 
+
+
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -43,9 +46,10 @@ import javax.xml.transform.stream.StreamResult;
 public class Entity {
 	private AlchemyAPI alchemyClient;
 	
-	public Entity()
+	public Entity() throws FileNotFoundException, IOException
 	{
-		setAlchemyClient();
+		this.alchemyClient = AlchemyAPI.GetInstanceFromFile("testdir/api_key.txt");
+		//setAlchemyClient();
 	}
 	public List<String> keywordList(String contentText) throws IOException, SAXException,
     ParserConfigurationException, XPathExpressionException
@@ -68,7 +72,7 @@ public class Entity {
         entityParams.setDisambiguate(true);
 		entityParams.setSentiment(true);
 		Document alchemyRankedNamedEntities = this.alchemyClient.TextGetRankedNamedEntities(contentText, entityParams);
-	   // System.out.println(getStringFromDocument(alchemyRankedNamedEntities));
+	    System.out.println(getStringFromDocument(alchemyRankedNamedEntities));
 		return entityParse(getStringFromDocument(alchemyRankedNamedEntities));
 	    
 	    
@@ -195,6 +199,7 @@ public class Entity {
 	                        .trim());
 	            }
 	        }
+	        result.put(text, type);
 	    }
 	    return result;
 	}
