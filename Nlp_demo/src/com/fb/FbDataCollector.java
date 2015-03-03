@@ -87,7 +87,7 @@ public HashMap<String, String> retrieveUserProfile(String object){
          // step 3a: output result
          HashMap<String, String> result = new HashMap<String, String>();
          for (User friend : friends) {
-                 System.out.println("Favorite "+object +" of "+ friend.getName()+":");
+                 //System.out.println("Favorite "+object +" of "+ friend.getName()+":");
                  PageConnections connections = favorite.get(friend.getId());
                  if(connections.getData().size()>=1)
                  {

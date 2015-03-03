@@ -35,7 +35,7 @@ public class Testing {
 		
 		System.out.println("Get facebook user profile by given user access token...");
 		String userId = "";
-		String access_token = "CAACEdEose0cBAOd9WzzP9s1W0yv7iuGE5izz91kE0kWCA0KI0OpI7VcAmtwX0UwVTZCGokcALJEvouZBxIa0fohaVJ08EPZBHuGMbuAB7I27drHLqHONTyP2nN97ljB0dGhxkEEeiqrPRp5J20pvl5dp45V0pX2i0q3mPZAjswnkJGjhcCs7ju3vJpXx9bBbRZAYFlEWOOrwpQqDNcKN5q2MFxAGlk64ZD";
+		String access_token = "CAACEdEose0cBAEOlOUDCvYczeTwXHmSOAmZBKU7BbZAdhhULhA4OU3PgnsmKGjZBSsLZBYHi8wIEaSjl59SZCGw2YT74ZANKbuYmFyrEFjTNfWRzoj3xhJJc5qHU6t1ZBBIupZC8Dw6p0T0NnfwrfH1yN4dsH3wKGfK06aqGYZArwUl8q1jivueV5bZAXC794ifh1aAosJNnyVyDcs0GiPSptZC4OnQKytVef8ZD";
 		FbUser user = new FbUser(userId, access_token);
 		FbDataCollector dataCollector = new FbDataCollector(user);
 		HashMap<String, String>friends_movie=dataCollector.retrieveUserProfile("movies");
