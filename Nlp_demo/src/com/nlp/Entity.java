@@ -72,7 +72,7 @@ public class Entity {
         entityParams.setDisambiguate(true);
 		entityParams.setSentiment(true);
 		Document alchemyRankedNamedEntities = this.alchemyClient.TextGetRankedNamedEntities(contentText, entityParams);
-	    System.out.println(getStringFromDocument(alchemyRankedNamedEntities));
+	    //System.out.println(getStringFromDocument(alchemyRankedNamedEntities));
 		return entityParse(getStringFromDocument(alchemyRankedNamedEntities));
 	    
 	    
