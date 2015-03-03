@@ -8,11 +8,12 @@ import java.net.URLEncoder;
 public class AlchemyAPI_Params {
 	public static final String OUTPUT_XML = "xml";
 	public static final String OUTPUT_RDF = "rdf";
+	public static final String OUTPUT_TEXT = "txt";
 	
 	private String url;
 	private String html;
 	private String text;
-	private String outputMode = OUTPUT_RDF;
+	private String outputMode = OUTPUT_TEXT;
 	private String customParameters;
 	
 	public String getUrl() {

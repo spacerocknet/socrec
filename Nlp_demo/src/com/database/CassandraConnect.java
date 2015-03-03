@@ -91,7 +91,14 @@ public class CassandraConnect {
 				           "like set<text>,"+
 				            "PRIMARY KEY(id, username, createat)"+
 				            ");");
-			
+			getSession().execute(
+				      "CREATE TABLE IF NOT EXISTS facebook.status (" +
+				            "id uuid ," + 
+				            "username text," +
+				            "createat timestamp," +
+				           "message text,"+
+				            "PRIMARY KEY(id, username, createat)"+
+				            ");");
 	}
 	public ResultSet  querySchema() {
 		ResultSet results = getSession().execute("SELECT * FROM facebook.movies " +
@@ -100,6 +107,14 @@ public class CassandraConnect {
 		return results;
 		
 	}
+	public ResultSet getUserFavoriteMovie(String username){
+		ResultSet results= getSession().execute("SELECT movietitle FROM facebook.movies " +
+				"WHERE username = " + "'"+ username+ "'" +
+		        "ALLOW FILTERING;");
+		return results;
+	}
+	
+	//public ResultSet getUser
 	public void insertMovieData(String id, String username, String movielist) {
 		
 		getSession().execute(
@@ -120,6 +135,18 @@ public class CassandraConnect {
 			    	  id + "," +
 			          "'"+ username+ "'," +
 			          likelist + "," +
+			          createdat +
+			          ")" +
+			          ";");
+	}
+	public void insertUserStatusData(String id, String username, String status,String createdat){
+		getSession().execute(
+				
+			      "INSERT INTO facebook.status (id, username, status, createdat) " +
+			      "VALUES (" + 
+			    	  id + "," +
+			          "'"+ username+ "'," +
+			          status + "," +
 			          createdat +
 			          ")" +
 			          ";");

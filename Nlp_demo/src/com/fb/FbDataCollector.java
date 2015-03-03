@@ -87,7 +87,7 @@ public HashMap<String, String> retrieveUserProfile(String object){
          // step 3a: output result
          HashMap<String, String> result = new HashMap<String, String>();
          for (User friend : friends) {
-                 //System.out.println("Favorite "+object +" of "+ friend.getName()+":");
+                 System.out.println("Favorite "+object +" of "+ friend.getName()+":");
                  PageConnections connections = favorite.get(friend.getId());
                  if(connections.getData().size()>=1)
                  {
@@ -135,7 +135,7 @@ public String getAsIdParamList(List<User> users) {
 
 public static void main(String[] args) {
 	String userId = "";
-	String access_token = "CAACEdEose0cBAPidHkaZATu4UtfA0GDRBiyZBNxZBaEb14c9Uv5qVNwhCZB8WSOFPTA1ow1VxmZADmuucserfiVDZAiSbcZASMXQ1PBsT4cKIgb2IwmqvVCekwPxVWX5amxeU5r216ljAQVBBGIULZC7wgrNboea9nI2i4zwcvnpIURADjVRDAfzmVqVaOZCsdubZCnbMQXhAtBMMrtnG5OF406UQZCvfWr0WS3iN78PibkEgZDZD";
+	String access_token = "CAACEdEose0cBAFZCoYUtDfIIh9bLoSZBLaDTEL7e4VxA6rbt2ZAEZAVJUJM9XcZAc9GbS8bV02bQBc3ekFPZCdte0JDlCtIqxsKN2gRJiEhAB4qLBiUvA6rw1gZCJQXrJ3m0WrNepHuaXwnoDaZBLDJn1rb42aNtBF7mJKZCZAOWGtVutzKwvgT4ZBn6KuIxpgDGNu5YqdWi8p5bzKtIgZCTTE7xXNnTzhZBgl9AZD";
 	FbUser user = new FbUser(userId, access_token);
 	FbDataCollector dataCollector = new FbDataCollector(user);
 	dataCollector.retrieveUserProfile("movies");
