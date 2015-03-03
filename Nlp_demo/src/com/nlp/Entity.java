@@ -43,9 +43,10 @@ import javax.xml.transform.stream.StreamResult;
 public class Entity {
 	private AlchemyAPI alchemyClient;
 	
-	public Entity()
+	public Entity() throws FileNotFoundException, IOException
 	{
-		setAlchemyClient();
+		this.alchemyClient = AlchemyAPI.GetInstanceFromFile("testdir/api_key.txt");
+		//setAlchemyClient();
 	}
 	public List<String> keywordList(String contentText) throws IOException, SAXException,
     ParserConfigurationException, XPathExpressionException
