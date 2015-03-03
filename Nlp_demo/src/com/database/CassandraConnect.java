@@ -97,15 +97,17 @@ public class CassandraConnect {
 			          movielist+")" +
 			          ";");
 	}
-	public void insertLikeData(String id, String username, String likelist) {
+	public void insertUserLikeData(String id, String username, String likelist,String createdat) {
 		
 		getSession().execute(
 				
-			      "INSERT INTO facebook.Like (id, username, like) " +
+			      "INSERT INTO facebook.Like (id, username, like, createdat) " +
 			      "VALUES (" + 
 			    	  id + "," +
 			          "'"+ username+ "'," +
-			          likelist+")" +
+			          likelist + "," +
+			          createdat +
+			          ")" +
 			          ";");
 	}
 	public void preInsertData(String id, String username, String movie) {
@@ -143,6 +145,7 @@ public class CassandraConnect {
 
 	private Session getSession() {
 		return session;
+		
 	}
 
 	private void setSession(Session session) {
