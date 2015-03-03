@@ -10,8 +10,12 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
+
+
 
 
 
@@ -87,17 +91,17 @@ public class CassandraConnect {
 				      "CREATE TABLE IF NOT EXISTS facebook.like (" +
 				            "id uuid ," + 
 				            "username text," +
-				            "createat timestamp," +
+				            "createdat timestamp," +
 				           "like set<text>,"+
-				            "PRIMARY KEY(id, username, createat)"+
+				            "PRIMARY KEY(id, username, createdat)"+
 				            ");");
 			getSession().execute(
 				      "CREATE TABLE IF NOT EXISTS facebook.status (" +
 				            "id uuid ," + 
 				            "username text," +
-				            "createat timestamp," +
 				           "message text,"+
-				            "PRIMARY KEY(id, username, createat)"+
+				           "createdat timestamp," +
+				            "PRIMARY KEY(id, username, createdat)"+
 				            ");");
 	}
 	public ResultSet  querySchema() {
@@ -113,7 +117,12 @@ public class CassandraConnect {
 		        "ALLOW FILTERING;");
 		return results;
 	}
-	
+	public ResultSet getUserStatus(String username){
+		ResultSet results= getSession().execute("SELECT message FROM facebook.status " +
+				"WHERE username = " + "'"+ username+ "'" +
+		        " ALLOW FILTERING;");
+		return results;
+	}
 	//public ResultSet getUser
 	public void insertMovieData(String id, String username, String movielist) {
 		
@@ -142,13 +151,13 @@ public class CassandraConnect {
 	public void insertUserStatusData(String id, String username, String status,String createdat){
 		getSession().execute(
 				
-			      "INSERT INTO facebook.status (id, username, status, createdat) " +
+			      "INSERT INTO facebook.status (id, username, message, createdat) " +
 			      "VALUES (" + 
 			    	  id + "," +
-			          "'"+ username+ "'," +
-			          status + "," +
+			          "'"+ username+ "','" +
+			          status + "','" +
 			          createdat +
-			          ")" +
+			          "')" +
 			          ";");
 	}
 	public void preInsertData(String id, String username, String movie) {
@@ -172,18 +181,7 @@ public class CassandraConnect {
 		   
 		   //client.preInsertData(UUID.randomUUID().toString(), "fafa", "fff");
 		 //  client.insertData("756716f7-2e54-4715-9f00-91dcbea6cf50","ta ta","{'aa','bb'}");
-		   ResultSet results= client.querySchema();
-		   System.out.println(String.format("\t%-20s\t%-20s\n%s", "username", "movietitle",
-			       "-----------------------+--------------------"));
-		   
-			for (Row row : results) {
-				
-			    System.out.println(String.format("\t%-20s\t%-20s", row.getString("username"),
-			    		row.getSet("movietitle", String.class)));
-			   
-			}
-			System.out.println();
-		
+		   client.insertFakeDatatoStatusTable();
 		   client.close();
 		}
 
@@ -234,6 +232,29 @@ public class CassandraConnect {
 
 	private void setCon(Connection con) {
 		this.con = con;
+	}
+	public void insertFakeDatatoStatusTable()
+	{
+		List<String> ids= new ArrayList<String>();
+		for (int i =0; i<3;i++){
+			ids.add(UUID.randomUUID().toString());
+		}
+		List<String> username= new ArrayList<String>();
+		username.add("Peter");
+		username.add("Obama");
+		username.add("Nguyen Van A");
+		List<String> statuses=new ArrayList<String>();
+		statuses.add("The top five most expensive cities in the world remain unchanged from a year earlier and include, in descending order, Paris, Oslo, Zurich and Sydney.");
+		statuses.add("Amateur photographer Martin Le-May, from Essex, has recorded the extraordinary image of a weasel riding on the back of a green woodpecker as it flies through the air.");
+		statuses.add("Physical self-improvement is a long-established business. During the 1940s, weightlifter Charles Atlas advertised his bodybuilding courses by describing himself as a the 97lb weakling who became the world most perfectly developed man. The pieces often featured stories of how skinny young men on beaches had followed his diktats for a short period, returned and successfully confronted bullies who had kicked sand in their faces.");
+		List<String> createdat = new ArrayList<String>();
+		for (int i =0; i<3;i++){ 
+			createdat.add("2015-02-03");
+		}
+		for(int i=0;i<3;i++){
+			insertUserStatusData(ids.get(i),username.get(i),statuses.get(i).replaceAll("'", ""),createdat.get(i));
+		}
+		
 	}
 	
 }

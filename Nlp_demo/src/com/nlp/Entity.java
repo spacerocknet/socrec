@@ -28,6 +28,9 @@ import java.util.Properties;
 
 
 
+
+
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -69,7 +72,7 @@ public class Entity {
         entityParams.setDisambiguate(true);
 		entityParams.setSentiment(true);
 		Document alchemyRankedNamedEntities = this.alchemyClient.TextGetRankedNamedEntities(contentText, entityParams);
-	   // System.out.println(getStringFromDocument(alchemyRankedNamedEntities));
+	    //System.out.println(getStringFromDocument(alchemyRankedNamedEntities));
 		return entityParse(getStringFromDocument(alchemyRankedNamedEntities));
 	    
 	    
@@ -196,6 +199,7 @@ public class Entity {
 	                        .trim());
 	            }
 	        }
+	        result.put(text, type);
 	    }
 	    return result;
 	}
