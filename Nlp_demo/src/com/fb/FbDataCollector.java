@@ -33,6 +33,7 @@ public class FbDataCollector {
 	private void setMainUser(FbUser mainUser) {
 		this.mainUser = mainUser;
 	}
+	
 public HashMap<String, String> retrieveUserProfile(String object){
 		
 		

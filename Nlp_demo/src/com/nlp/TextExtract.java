@@ -25,35 +25,7 @@ class TextExtract {
         // and other content).
         Document doc = alchemyObj.URLGetText("http://stackoverflow.com/questions/16275164/name-entity-extraction-and-categorization-in-alchemyapi");
         System.out.println(getStringFromDocument(doc));
-/*
- * 
- 
-        // Extract raw page text from a web URL. (including ads, navigation
-        // links, and other content).
-        doc = alchemyObj.URLGetRawText("http://www.techcrunch.com/");
-        System.out.println(getStringFromDocument(doc));
-
-        // Extract a title from a web URL.
-        doc = alchemyObj.URLGetTitle("http://www.techcrunch.com/");
-        System.out.println(getStringFromDocument(doc));
-
-        // Load a HTML document to analyze.
-        String htmlDoc = getFileContents("testdir/data/example.html");
-
-        // Extract page text from a HTML document. (ignoring ads, navigation
-        // links, and other content).
-        doc = alchemyObj.HTMLGetText(htmlDoc, "http://www.test.com/");
-        System.out.println(getStringFromDocument(doc));
-
-        // Extract raw page text from a HTML document. (including ads,
-        // navigation links, and other content).
-        doc = alchemyObj.HTMLGetRawText(htmlDoc, "http://www.test.com/");
-        System.out.println(getStringFromDocument(doc));
-
-        // Extract a title from a HTML document.
-        doc = alchemyObj.HTMLGetTitle(htmlDoc, "http://www.test.com/");
-        System.out.println(getStringFromDocument(doc));
-       */
+     
     }
 
     // utility function

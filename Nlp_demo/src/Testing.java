@@ -26,7 +26,7 @@ public class Testing {
 
 	public static void main(String[] args) throws FileNotFoundException, XPathExpressionException, IOException, SAXException, ParserConfigurationException {
 		//test through get data from facebook -> save to database -> load data -> entity extraction
-		test_nlp_userMovie();
+		//test_nlp_userMovie();
 		//test through load data from database -> entity extraction
 		test_nlp_userStatus();
 		
@@ -82,13 +82,6 @@ public class Testing {
 		    	contentText= contentText.replaceAll("\\[", "");
 		    	contentText= contentText.replaceAll("]", ". ");
 		     Entity en= new Entity();
-		     
-		     //keywords
-		     List<String>keywords=en.keywordList(contentText);
-		     
-		     //entity and its type
-		     HashMap<String, ArrayList<String>>entities =en.entityList(contentText);
-		     
 		     System.out.println("DONE");
 			client.close();
 	}
@@ -122,10 +115,15 @@ public class Testing {
 			     Entity en= new Entity();
 			     
 			     //keywords
-			     List<String>keywords=en.keywordList(contentText);
+			     //List<String>keywords=en.keywordList(contentText);
 			     
 			     //entity and its type
-			     HashMap<String, ArrayList<String>>entities =en.entityList(contentText);
+			    // HashMap<String, ArrayList<String>>entities =en.entityList(contentText);
+			     List<String>entity = en.entitiesList(contentText);
+			     for(int i = 0;i < entity.size();i++)
+			     {
+			      System.out.println(entity.get(i));
+			     }
 			     System.out.println("DONE");
 				client.close();
 		
