@@ -43,7 +43,7 @@ public class Testing {
 				
 				System.out.println("Get facebook user profile by given user access token...");
 				String userId = "";
-				String access_token = "CAACEdEose0cBAEOlOUDCvYczeTwXHmSOAmZBKU7BbZAdhhULhA4OU3PgnsmKGjZBSsLZBYHi8wIEaSjl59SZCGw2YT74ZANKbuYmFyrEFjTNfWRzoj3xhJJc5qHU6t1ZBBIupZC8Dw6p0T0NnfwrfH1yN4dsH3wKGfK06aqGYZArwUl8q1jivueV5bZAXC794ifh1aAosJNnyVyDcs0GiPSptZC4OnQKytVef8ZD";
+				String access_token = "CAACEdEose0cBADKLJigB0rrKlSdrCz3ir6NgMfZBVpBp7b9507WLnOZBqplx9CSFWWbEjRaTs05bVot8KdwzAewkt2vBPG762dPXGFZAe90w1hbU0hAXny7M3NgZBxqk0qQHLOL7KV8MFhJIs0GxQ4kPtV53eRPniZBXv4xDk7ObQ32uZCNmTei5iQY0opjolDZCv9EpjBnGVmCis5IZBUxHowwwTLJyB9aDnOnSg1Y4IAZDZD";
 				FbUser user = new FbUser(userId, access_token);
 				FbDataCollector dataCollector = new FbDataCollector(user);
 				HashMap<String, String>friends_movie=dataCollector.retrieveUserProfile("movies");
@@ -111,7 +111,7 @@ public class Testing {
 			        else{
 			        	for(int i=0;i<rows.size();i++){
 			        		//System.out.println(rows.get(i).getSet("movietitle", String.class).toString());
-			            	textbuilder.append(rows.get(i).getSet(0, String.class).toString());
+			            	textbuilder.append(rows.get(i).getString("message"));
 			            }
 			        }
 			        
