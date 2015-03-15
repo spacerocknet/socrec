@@ -10,7 +10,7 @@ import org.apache.spark.mllib.feature.Word2VecModel
 import java.io._
 import scala.util._
 
-import com.socrec.word2vec.App
+import com.socrec.word2vec._
 
 @Test
 class AppTest {
@@ -19,7 +19,7 @@ class AppTest {
     def testModel() {
       println("Testing model...")
       val str = testCases(ran.nextInt(testCases.length))
-      val synonyms = App.findSynonyms(str, 10)
+      val synonyms = Word2VecWrapper.findSynonyms(str, 10)
       assert(synonyms.length > 0)
       println("Synonyms of" + str)
       for((synonym, cosineSimilarity) <- synonyms) {
@@ -29,14 +29,14 @@ class AppTest {
     
     def testSerialization(fileName: String) {
       println("Testing serialization ...")
-      App.saveTrainedModel(fileName)
+      Word2VecWrapper.saveTrainedModel(fileName)
     }
     
     def testDeserialization(fileName: String) {
       println("Testing deserialization...")
-      App.resetModel()
-      App.loadTrainedModel(fileName)
-      assert(App.model != null)
+      Word2VecWrapper.resetModel()
+      Word2VecWrapper.loadTrainedModel(fileName)
+      assert(Word2VecWrapper.model != null)
       testModel();
     }
     
@@ -49,10 +49,10 @@ class AppTest {
       
       val sc = new SparkContext(conf)
       val input = sc.textFile("data/wiki1_tiny.txt").map(line => line.split(" ").toSeq)
-      App.train_model(input)
+      Word2VecWrapper.train_model(input)
       testModel()
       
-      val fileName: String = "ser_w2v.object"
+      val fileName: String = "testser_w2v.object"
       testSerialization(fileName)
       testDeserialization(fileName)
     } 
