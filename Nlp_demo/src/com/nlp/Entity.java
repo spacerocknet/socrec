@@ -64,7 +64,22 @@ public class Entity {
 	    
 	    
 	}
-	public HashMap<String, ArrayList<String>> entityList(String contentText) throws IOException, SAXException,
+	
+//	public HashMap<String, ArrayList<String>> entityList(String contentText) throws IOException, SAXException,
+//    ParserConfigurationException, XPathExpressionException
+//	{
+//
+//        AlchemyAPI_NamedEntityParams entityParams = new AlchemyAPI_NamedEntityParams();
+//        entityParams.setDisambiguate(true);
+//		entityParams.setSentiment(true);
+//		Document alchemyRankedNamedEntities = this.alchemyClient.TextGetRankedNamedEntities(contentText, entityParams);
+//	    //System.out.println(getStringFromDocument(alchemyRankedNamedEntities));
+//		return entityParse(getStringFromDocument(alchemyRankedNamedEntities));
+//	    
+//	    
+//	}
+	
+	public List<String> entitiesList(String contentText) throws IOException, SAXException,
     ParserConfigurationException, XPathExpressionException
 	{
 
@@ -73,7 +88,7 @@ public class Entity {
 		entityParams.setSentiment(true);
 		Document alchemyRankedNamedEntities = this.alchemyClient.TextGetRankedNamedEntities(contentText, entityParams);
 	    //System.out.println(getStringFromDocument(alchemyRankedNamedEntities));
-		return entityParse(getStringFromDocument(alchemyRankedNamedEntities));
+		return getEntityFromText(getStringFromDocument(alchemyRankedNamedEntities));
 	    
 	    
 	}
@@ -82,7 +97,7 @@ public class Entity {
                ParserConfigurationException, XPathExpressionException
     {
       Entity entity = new Entity();
-      entity.entityList("David beckham, Ronaldo speaking at the UN Human Rights Council, Mr Kerry said he had warned Russia that it faced further sanctions if the conditions of the ceasefire were not met in full."
+      entity.entitiesList("David beckham, Ronaldo speaking at the UN Human Rights Council, Mr Kerry said he had warned Russia that it faced further sanctions if the conditions of the ceasefire were not met in full."
 
 +"But he said he was optimistic the truce could be completed in "+"hours, certainly not more than days ");
     
@@ -172,12 +187,51 @@ public class Entity {
 	}
 	
 
-	public HashMap<String, ArrayList<String>> entityParse(String input) throws ParserConfigurationException, SAXException, IOException
+//	public HashMap<String, ArrayList<String>> entityParse(String input) throws ParserConfigurationException, SAXException, IOException
+//	{
+//		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//	    DocumentBuilder builder = factory.newDocumentBuilder();
+//	    HashMap<String, ArrayList<String>> result=new HashMap<String, ArrayList<String>>();
+//	  
+//	    Document document = builder.parse(new InputSource(new StringReader(
+//	            input)));
+//
+//	    NodeList flowList = document.getElementsByTagName("entity");
+//	    for (int i = 0; i < flowList.getLength(); i++) {
+//	        NodeList childList = flowList.item(i).getChildNodes();
+//	        String text="";
+//	        ArrayList<String> type=new ArrayList<String>();
+//	        for (int j = 0; j < childList.getLength(); j++) {
+//	            Node childNode = childList.item(j);
+//	            if ("text".equals(childNode.getNodeName())) {
+//	            	
+//	          
+//	                text=childList.item(j).getTextContent()
+//	                        .trim();
+//	            }
+//	            if("type".equals(childNode.getNodeName()) || "subType".equals(childNode.getNodeName()) ){
+//	            	type.add(childList.item(j).getTextContent()
+//	                        .trim());
+//	            }
+//	        }
+//	        result.put(text, type);
+//	    }
+//	    return result;
+//	}
+	    
+	/**
+	 * 
+	 * @param input
+	 * @return
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public List<String> getEntityFromText(String input) throws ParserConfigurationException, SAXException, IOException
 	{
+		ArrayList<String>  result = new ArrayList<String>();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder builder = factory.newDocumentBuilder();
-	    HashMap<String, ArrayList<String>> result=new HashMap<String, ArrayList<String>>();
-	  
 	    Document document = builder.parse(new InputSource(new StringReader(
 	            input)));
 
@@ -185,7 +239,6 @@ public class Entity {
 	    for (int i = 0; i < flowList.getLength(); i++) {
 	        NodeList childList = flowList.item(i).getChildNodes();
 	        String text="";
-	        ArrayList<String> type=new ArrayList<String>();
 	        for (int j = 0; j < childList.getLength(); j++) {
 	            Node childNode = childList.item(j);
 	            if ("text".equals(childNode.getNodeName())) {
@@ -193,17 +246,13 @@ public class Entity {
 	          
 	                text=childList.item(j).getTextContent()
 	                        .trim();
+	                result.add(text);
 	            }
-	            if("type".equals(childNode.getNodeName()) || "subType".equals(childNode.getNodeName()) ){
-	            	type.add(childList.item(j).getTextContent()
-	                        .trim());
-	            }
+	           
 	        }
-	        result.put(text, type);
 	    }
 	    return result;
 	}
-	    
 
 	  
 	
